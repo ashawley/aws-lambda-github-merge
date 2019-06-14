@@ -182,7 +182,7 @@ object Main extends LambdaApp with scalalogging.StrictLogging {
         val status = github.models.StatusInput(
           github.models.StatusState.pending,
           description = Some("Continuously integrating..."),
-          context = Some("continuous-integration")
+          context = Some("aws-lambda/pull-request-integration")
         )
         Await.ready(
           githubApi.createStatus(repoConfig.owner, repoConfig.repo, br.sha, status),
@@ -207,7 +207,7 @@ object Main extends LambdaApp with scalalogging.StrictLogging {
             val status = github.models.StatusInput(
               github.models.StatusState.error,
               description = Some(e.getMessage.take(1024)),
-              context = Some("continuous-integration")
+              context = Some("aws-lambda/pull-request-integration")
             )
             Await.ready(
               githubApi.createStatus(repoConfig.owner, repoConfig.repo, br.sha, status),
@@ -404,7 +404,7 @@ object Main extends LambdaApp with scalalogging.StrictLogging {
           val status = github.models.StatusInput(
             github.models.StatusState.failure,
             description = Some(desc.take(1024)),
-            context = Some("continuous-integration")
+            context = Some("aws-lambda/pull-request-integration")
           )
           logger.info(s"Setting status of ${br.label} to $desc")
           Await.ready(
@@ -438,7 +438,7 @@ object Main extends LambdaApp with scalalogging.StrictLogging {
           val status = github.models.StatusInput(
             github.models.StatusState.success,
             description = Some("Continuous integration succeeded"),
-            context = Some("continuous-integration")
+            context = Some("aws-lambda/pull-request-integration")
           )
           Await.ready(
             githubApi.createStatus(repoConfig.owner, repoConfig.repo, br.sha, status),
