@@ -1,6 +1,8 @@
 package prs
 
-import com.amazonaws.services.lambda.runtime.events.SNSEvent
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
+import com.amazonaws.services.lambda.runtime.Context
 
 import scala.collection.JavaConverters._
 
@@ -12,7 +14,8 @@ trait LambdaApp {
   /**
    * Handlers
    */
-  def handler(e: SNSEvent): java.util.List[String]
+  def handleRequest(request: APIGatewayProxyRequestEvent, context: Context): APIGatewayProxyResponseEvent
+
 
   def cleanUp() = {}
 
@@ -77,67 +80,18 @@ trait LambdaApp {
       |  "sender": {
       |    "login": "baxterthehacker"
       |  }
-      |}
-      |""".stripMargin
-
-  // {
-  //   "Records": [
-  //     {
-  //       "EventVersion": "1.0",
-  //       "EventSubscriptionArn": "arn:aws:sns:EXAMPLE",
-  //       "EventSource": "aws:sns",
-  //       "Sns": {
-  //         "SignatureVersion": "1",
-  //         "Timestamp": "1970-01-01T00:00:00.000Z",
-  //         "Signature": "EXAMPLE",
-  //         "SigningCertUrl": "EXAMPLE",
-  //         "MessageId": "95df01b4-ee98-5cb9-9903-4c221d41eb5e",
-  //         "Message": "{\"action\":\"opened\",\"number\":1,\"pull_request\":{...}}",
-  //         "MessageAttributes": {
-  //           "X-Github-Event": {
-  //             "Type": "String",
-  //             "Value": "pull_request"
-  //           }
-  //         },
-  //         "Type": "Notification",
-  //         "UnsubscribeUrl": "EXAMPLE",
-  //         "TopicArn": "arn:aws:sns:EXAMPLE",
-  //         "Subject": "TestInvoke"
-  //       }
-  //     }
-  //   ]
-  // }
-  val snsEvent = {
-    val m = new SNSEvent.MessageAttribute
-    m.setType("String")
-    m.setValue("push")
-    val s = new SNSEvent.SNS
-    s.setSignatureVersion("1")
-    s.setTimestamp(new org.joda.time.DateTime("1970-01-01T00:00:00.000Z"))
-    s.setSignature("EXAMPLE")
-    s.setSigningCertUrl("EXAMPLE")
-    s.setMessageId("95df01b4-ee98-5cb9-9903-4c221d41eb5e")
-    s.setMessage(pushEvent)
-    s.setMessageAttributes(
-      Map("X-Github-Event" -> m).asJava)
-    s.setType("Notification")
-    s.setUnsubscribeUrl("EXAMPLE")
-    s.setTopicArn("arn:aws:sns:EXAMPLE")
-    s.setSubject("TestInvoke")
-    val r = new SNSEvent.SNSRecord
-    r.setEventVersion("1.0")
-    r.setEventSubscriptionArn("arn:aws:sns:EXAMPLE")
-    r.setEventSource("aws:sns")
-    r.setSns(s)
-    val e = new SNSEvent
-    e.setRecords(List(r).asJava)
-    e
-  }
+      |}""".stripMargin
 
   /**
    * Driver for testing handler locally
-   */ 
+   */
   def main(args: Array[String]): Unit = {
+
+    val headers = Map("X-GitHub-Event" -> "push")
+    val request = new APIGatewayProxyRequestEvent
+    request.setBody(pushEvent)
+    request.setHeaders(headers.asJava)
+
     val uuid = java.util.UUID.randomUUID
     val version = "$LATEST"
     org.apache.log4j.MDC.put("AWSRequestId", uuid.toString)
@@ -145,9 +99,22 @@ trait LambdaApp {
     println(s"START RequestId: $uuid Version: $version")
 
     val t0 = System.nanoTime
-    var result: java.util.List[String] = new java.util.ArrayList[String]()
+    var result = new APIGatewayProxyResponseEvent
     try {
-      result = handler(snsEvent)
+      val nullContext = new com.amazonaws.services.lambda.runtime.Context {
+        def getAwsRequestId(): String = ???
+        def getClientContext(): com.amazonaws.services.lambda.runtime.ClientContext = ???
+        def getFunctionName(): String = ???
+        def getFunctionVersion(): String = ???
+        def getIdentity(): com.amazonaws.services.lambda.runtime.CognitoIdentity = ???
+        def getInvokedFunctionArn(): String = ???
+        def getLogGroupName(): String = ???
+        def getLogStreamName(): String = ???
+        def getLogger(): com.amazonaws.services.lambda.runtime.LambdaLogger = ???
+        def getMemoryLimitInMB(): Int = ???
+        def getRemainingTimeInMillis(): Int = ???
+      }
+      result = handleRequest(request, nullContext)
     } catch {
       case e: Throwable => e.printStackTrace
     } finally {
@@ -170,9 +137,7 @@ trait LambdaApp {
                  |  Max Memory Used: ${memoryUsed} MB""".stripMargin
       .replaceAll("\n", ""))
 
-    println("[")
-    println("  " + result.asScala.map(escString(_)).mkString(",\n  "))
-    println("]")
+    println(result.toString)
   }
 
   def escString(s: String) =

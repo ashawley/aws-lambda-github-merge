@@ -12,9 +12,13 @@ import codecheck.github
 
 import com.ning.http.client.AsyncHttpClient
 
-import com.amazonaws.services.lambda.runtime.events.SNSEvent
+import com.amazonaws.services.lambda.runtime.Context
+import com.amazonaws.services.lambda.runtime.RequestHandler
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 
 import org.json4s._
+import org.json4s.JsonDSL._
 import org.json4s.native.JsonMethods._
 
 import scala.concurrent.Await
@@ -27,7 +31,10 @@ import scala.util.Failure
 
 import scala.collection.JavaConverters._
 
-object Main extends LambdaApp with scalalogging.StrictLogging {
+object Main
+extends LambdaApp
+with RequestHandler[APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent]
+with scalalogging.StrictLogging {
 
   lazy val config = Typesafe.config.unsafePerformSync
 
@@ -100,21 +107,23 @@ object Main extends LambdaApp with scalalogging.StrictLogging {
     }
   }
 
-  def safeList[A](xs: java.util.List[A]) =
-    Option(xs).map(_.asScala).getOrElse(List.empty[A])
-
-  def handler(e: SNSEvent) = Try {
+  def handleRequest(request: APIGatewayProxyRequestEvent, context: Context): APIGatewayProxyResponseEvent = Try {
 
     // Provided by sbt-buildinfo plugin
     logger.info(s"Starting ${BuildInfo.name} ${BuildInfo.version}")
 
-    logger.info("Inspecting SNS notification...")
-    val events = for {
-      r <- safeList(e.getRecords)
-      (key, attribute) <- r.getSNS.getMessageAttributes.asScala
-      if key == "X-Github-Event" && (attribute.getValue == "pull_request" || attribute.getValue == "push")
-    } yield {
-      github.events.GitHubEvent(attribute.getValue, parse(r.getSNS.getMessage))
+    logger.info("Inspecting API Gateway request...")
+
+    val eventType: String = request.getHeaders.get("X-GitHub-Event")
+
+    val events = eventType match {
+      case "push"
+         | "pull_request" =>
+        logger.info(s"Received event of ${eventType}")
+        List(github.events.GitHubEvent(eventType, parse(request.getBody)))
+      case _               =>
+        logger.info(s"Received unexpected event of '${eventType}'")
+        List.empty[github.events.GitHubEvent]
     }
 
     logger.info(s"Processed ${events.size} event(s)")
@@ -223,14 +232,19 @@ object Main extends LambdaApp with scalalogging.StrictLogging {
     }
     logger.info("Closing async HTTP client")
     client.close
-    merges.asJava
+    merges
   } match {
-    case Success(v) => v
-    case Failure(e: RuntimeException) => {
-      logger.error(e.getMessage)
+    case Success(v) =>
+      val response = new APIGatewayProxyResponseEvent
+      response.setBody(pretty(render(v)))
+      response
+    case Failure(e: java.io.IOException) => {
+      logger.error(e.toString)
       logger.info("Closing async HTTP client")
       client.close
-      List(e.getMessage).asJava
+      val response = new APIGatewayProxyResponseEvent
+      response.setBody(pretty(render(List(e.toString))))
+      response
     }
     case Failure(t: Throwable) => {
       logger.error("Failed for unexpected reason", t)
@@ -268,7 +282,7 @@ object Main extends LambdaApp with scalalogging.StrictLogging {
     GitMerge(
       repoConfig,
       repoConfig.copy(branch = integrationBranch),
-      branchesToMerge
+      branchesToMerge.toList
     )
   }
 

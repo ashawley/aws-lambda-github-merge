@@ -14,7 +14,7 @@
 [list the hooks]: https://developer.github.com/v3/repos/hooks/#list-hooks
 [edit the hook]: https://developer.github.com/v3/repos/hooks/#edit-a-hook
 
-## Merging pull requests on AWS Lambda with GitHub-SNS notifications
+## Merging pull requests on AWS Lambda with GitHub webhooks
 
 The following Scala code builds a Java JAR file that can run on AWS
 Lambda to automatically integrate pull requests for a project.
@@ -45,9 +45,9 @@ Lightbend, Inc.
 
 Steps in detail:
 
-- Receive event from GitHub by way of Amazon SNS notification
+- Receive event from GitHub by way of AWS API Gateway request
 - Load config file from `application.conf`
-- Verify repo in SNS is same repo in config file
+- Verify repo in request is same repo in config file
 - Find name of base branch in config file to merge on to
 - Use GitHub token in config file to call GitHub API
 - Find all pull requests in the repo for the base branch
@@ -66,8 +66,8 @@ Steps in detail:
 
 This code is designed to run at AWS Lambda.  This makes it difficult
 to test outside of AWS Lambda.  The app runs in Lambda with input from
-SNS based on GitHub notifications and is called in AWS Lambda in the
-peculiar way that Lambda operates.
+API gateway based on GitHub webhooks and is called in AWS Lambda
+in the peculiar way that Lambda operates.
 
 The `LambdaApp` trait is defined to enforce a type signature for an
 AWS Lambda functions, and can help with testing locally by providing
@@ -121,7 +121,7 @@ https://github.com/settings/ssh
 [info] Running prs.Main
 START RequestId: dc8beb69-1858-41f0-884c-9058930ea98f Version: $LATEST
 22:07:26.356 <dc8beb69-1858-41f0-884c-9058930ea98f> [main] INFO prs.Main$:105 - Starting aws-gh-prs 0.1-SNAPSHOT
-22:07:26.375 <dc8beb69-1858-41f0-884c-9058930ea98f> [main] INFO prs.Main$:107 - Inspecting SNS notification...
+22:07:26.375 <dc8beb69-1858-41f0-884c-9058930ea98f> [main] INFO prs.Main$:107 - Inspecting API Gateway notification...
 22:07:26.695 <dc8beb69-1858-41f0-884c-9058930ea98f> [main] INFO prs.Main$:116 - Processed 1 event(s)
 22:07:26.934 <dc8beb69-1858-41f0-884c-9058930ea98f> [main] INFO prs.Main$:139 - Pull request was organization/master..username/hotfix1
 22:07:26.935 <dc8beb69-1858-41f0-884c-9058930ea98f> [main] INFO prs.Main$:180 - Querying GitHub for open pull request(s)...
@@ -157,58 +157,51 @@ Assembly], to build a JAR file.
 
 ```
 > assembly
-[info] Including: json4s-native_2.11-3.5.0.jar
-[info] Including: log4j-1.2.17.jar
-[info] Including from cache: aws-java-sdk-kms-1.11.0.jar
-[info] Including from cache: aws-java-sdk-core-1.11.0.jar
-[info] Including from cache: commons-logging-1.1.3.jar
-[info] Including from cache: httpclient-4.5.2.jar
-[info] Including: json4s-core_2.11-3.5.0.jar
-[info] Including from cache: httpcore-4.4.4.jar
-[info] Including from cache: commons-codec-1.9.jar
-[info] Including from cache: jackson-dataformat-cbor-2.5.3.jar
-[info] Including from cache: aws-java-sdk-sns-1.11.0.jar
-[info] Including from cache: aws-java-sdk-sqs-1.11.0.jar
-[info] Including from cache: aws-java-sdk-cognitoidentity-1.11.0.jar
-[info] Including from cache: aws-java-sdk-kinesis-1.11.0.jar
-[info] Including from cache: aws-java-sdk-dynamodb-1.11.0.jar
-[info] Including: aws-lambda-java-log4j-1.0.0.jar
-[info] Including: scodec-bits_2.11-1.0.12.jar
-[info] Including: scala-library-2.11.8.jar
-[info] Including: async-http-client-1.9.21.jar
-[info] Including: parser_2.11-0.3.3.jar
-[info] Including: json4s-ast_2.11-3.5.0.jar
-[info] Including: json4s-scalap_2.11-3.5.0.jar
-[info] Including: netty-3.10.1.Final.jar
-[info] Including: scala-xml_2.11-1.0.6.jar
-[info] Including: scalaz-core_2.11-7.2.7.jar
-[info] Including: org.eclipse.jgit-4.6.0.201612231935-r.jar
-[info] Including: github-api_2.11.jar
-[info] Including: json4s-jackson_2.11-3.4.2.jar
-[info] Including: paranamer-2.8.jar
-[info] Including: jackson-databind-2.6.7.jar
-[info] Including: jackson-annotations-2.6.0.jar
-[info] Including: jsch-0.1.53.jar
-[info] Including: jackson-core-2.6.7.jar
-[info] Including: json4s-ext_2.11-3.4.2.jar
-[info] Including: JavaEWAH-1.1.6.jar
-[info] Including: scala-logging_2.11-3.5.0.jar
-[info] Including: joda-time-2.9.4.jar
-[info] Including: scala-reflect-2.11.8.jar
+[info] Including: typesafe_2.12-4.0.31-scalaz-7.2.jar
 [info] Including: joda-convert-1.8.1.jar
-[info] Including: typesafe_2.11-3.12.27a.jar
-[info] Including: core_2.11-3.12.27a.jar
-[info] Including: scopt_2.11-3.3.0.jar
-[info] Including: scalaz-stream_2.11-0.8.1a.jar
-[info] Including: scalaz-concurrent_2.11-7.2.2.jar
-[info] Including: scalaz-effect_2.11-7.2.2.jar
-[info] Including: slf4j-log4j12-1.7.22.jar
-[info] Including: slf4j-api-1.7.22.jar
+[info] Including: json4s-ext_2.12-3.4.2.jar
+[info] Including: jackson-databind-2.6.7.jar
+[info] Including: io_2.12-1.1.4.jar
+[info] Including: aws-lambda-java-events-2.2.3.jar
+[info] Including: log4j-1.2.17.jar
+[info] Including: jna-4.5.0.jar
+[info] Including: json4s-jackson_2.12-3.4.2.jar
+[info] Including: scala-xml_2.12-1.0.6.jar
+[info] Including: paranamer-2.8.jar
+[info] Including: scala-reflect.jar
+[info] Including: jackson-core-2.6.7.jar
+[info] Including: scodec-bits_2.12-1.1.2.jar
+[info] Including: jsch-0.1.54.jar
+[info] Including: github-api_2.12-0.2.0.jar
+[info] Including: scalaz-effect_2.12-7.2.12.jar
+[info] Including: parser_2.12-0.4.7-scalaz-7.2.jar
+[info] Including: jackson-annotations-2.6.0.jar
+[info] Including: httpcore-4.4.4.jar
+[info] Including: scopt_2.12-3.5.0.jar
+[info] Including: aws-lambda-java-core-1.2.0.jar
+[info] Including: slf4j-api-1.7.25.jar
+[info] Including: aws-lambda-java-log4j-1.0.0.jar
+[info] Including: scala-logging_2.12-3.7.2.jar
+[info] Including: json4s-core_2.12-3.5.3.jar
+[info] Including: httpclient-4.5.2.jar
+[info] Including: json4s-scalap_2.12-3.5.3.jar
+[info] Including: scalaz-core_2.12-7.2.12.jar
+[info] Including: slf4j-log4j12-1.7.25.jar
+[info] Including: scalaz-concurrent_2.12-7.2.7.jar
+[info] Including: async-http-client-1.9.40.jar
+[info] Including: jna-platform-4.5.0.jar
+[info] Including: json4s-ast_2.12-3.5.3.jar
+[info] Including: org.eclipse.jgit-4.10.0.201712302008-r.jar
+[info] Including: joda-time-2.9.4.jar
+[info] Including: commons-logging-1.2.jar
+[info] Including: json4s-native_2.12-3.5.3.jar
+[info] Including: netty-3.10.6.Final.jar
 [info] Including: config-1.2.1.jar
-[info] Including: io_2.11-1.0.0-M7.jar
-[info] Including from cache: aws-lambda-java-core-1.1.0.jar
-[info] Including from cache: aws-lambda-java-events-1.3.0.jar
-[info] Including from cache: aws-java-sdk-s3-1.11.0.jar
+[info] Including: scalaz-stream_2.12-0.8.6a.jar
+[info] Including: JavaEWAH-1.1.6.jar
+[info] Including: scala-library.jar
+[info] Including: core_2.12-4.0.31-scalaz-7.2.jar
+[info] Including: commons-codec-1.9.jar
 [info] Checking every *.class/*.jar file's SHA-1.
 [info] Merging files...
 [warn] Merging 'META-INF/DEPENDENCIES' with strategy 'discard'
@@ -216,18 +209,9 @@ Assembly], to build a JAR file.
 [warn] Merging 'META-INF/ECLIPSE_.SF' with strategy 'discard'
 [warn] Merging 'META-INF/LICENSE' with strategy 'discard'
 [warn] Merging 'META-INF/LICENSE.txt' with strategy 'discard'
-[warn] Merging 'META-INF/LICENSE_commons-codec-1.9.txt' with strategy 'discard'
-[warn] Merging 'META-INF/LICENSE_commons-logging-1.1.3.txt' with strategy 'discard'
-[warn] Merging 'META-INF/LICENSE_httpclient-4.5.2' with strategy 'discard'
-[warn] Merging 'META-INF/LICENSE_httpcore-4.4.4' with strategy 'discard'
-[warn] Merging 'META-INF/LICENSE_jackson-dataformat-cbor-2.5.3' with strategy 'discard'
 [warn] Merging 'META-INF/MANIFEST.MF' with strategy 'discard'
 [warn] Merging 'META-INF/NOTICE' with strategy 'discard'
 [warn] Merging 'META-INF/NOTICE.txt' with strategy 'discard'
-[warn] Merging 'META-INF/NOTICE_commons-codec-1.9.txt' with strategy 'discard'
-[warn] Merging 'META-INF/NOTICE_commons-logging-1.1.3.txt' with strategy 'discard'
-[warn] Merging 'META-INF/NOTICE_httpclient-4.5.2' with strategy 'discard'
-[warn] Merging 'META-INF/NOTICE_httpcore-4.4.4' with strategy 'discard'
 [warn] Merging 'META-INF/license/LICENSE.base64.txt' with strategy 'discard'
 [warn] Merging 'META-INF/license/LICENSE.bouncycastle.txt' with strategy 'discard'
 [warn] Merging 'META-INF/license/LICENSE.commons-logging.txt' with strategy 'discard'
@@ -239,22 +223,6 @@ Assembly], to build a JAR file.
 [warn] Merging 'META-INF/license/LICENSE.protobuf.txt' with strategy 'discard'
 [warn] Merging 'META-INF/license/LICENSE.slf4j.txt' with strategy 'discard'
 [warn] Merging 'META-INF/license/LICENSE.webbit.txt' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-java-sdk-cognitoidentity/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-java-sdk-cognitoidentity/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-java-sdk-core/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-java-sdk-core/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-java-sdk-dynamodb/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-java-sdk-dynamodb/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-java-sdk-kinesis/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-java-sdk-kinesis/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-java-sdk-kms/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-java-sdk-kms/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-java-sdk-s3/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-java-sdk-s3/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-java-sdk-sns/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-java-sdk-sns/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-java-sdk-sqs/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-java-sdk-sqs/pom.xml' with strategy 'discard'
 [warn] Merging 'META-INF/maven/com.amazonaws/aws-lambda-java-core/pom.properties' with strategy 'discard'
 [warn] Merging 'META-INF/maven/com.amazonaws/aws-lambda-java-core/pom.xml' with strategy 'discard'
 [warn] Merging 'META-INF/maven/com.amazonaws/aws-lambda-java-events/pom.properties' with strategy 'discard'
@@ -267,8 +235,6 @@ Assembly], to build a JAR file.
 [warn] Merging 'META-INF/maven/com.fasterxml.jackson.core/jackson-core/pom.xml' with strategy 'discard'
 [warn] Merging 'META-INF/maven/com.fasterxml.jackson.core/jackson-databind/pom.properties' with strategy 'discard'
 [warn] Merging 'META-INF/maven/com.fasterxml.jackson.core/jackson-databind/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor/pom.xml' with strategy 'discard'
 [warn] Merging 'META-INF/maven/com.googlecode.javaewah/JavaEWAH/pom.properties' with strategy 'discard'
 [warn] Merging 'META-INF/maven/com.googlecode.javaewah/JavaEWAH/pom.xml' with strategy 'discard'
 [warn] Merging 'META-INF/maven/com.jcraft/jsch/pom.properties' with strategy 'discard'
@@ -301,110 +267,71 @@ Assembly], to build a JAR file.
 [warn] Merging 'META-INF/maven/org.slf4j/slf4j-log4j12/pom.xml' with strategy 'discard'
 [warn] Merging 'META-INF/services/com.fasterxml.jackson.core.JsonFactory' with strategy 'discard'
 [warn] Merging 'META-INF/services/com.fasterxml.jackson.core.ObjectCodec' with strategy 'discard'
-[warn] Strategy 'discard' was applied to 90 files
-[info] SHA-1: 0dc9a913e36533508638092d844ddb1dad1c8647
-[info] Packaging target/scala-2.11/aws-gh-prs-assembly-0.1-SNAPSHOT.jar ...
-[info] Done packaging.
-[success] Total time: 63 s, completed Dec 14, 2016 9:29:40 AM
+[warn] Strategy 'discard' was applied to 63 files
+[info] SHA-1: 79f2f4ff4a554846ae7a2e26fa71c65bd5b9b29a
+[success] Total time: 66 s (01:06), completed Jun 19, 2019 11:55:41 AM
 ```
 
 ### Testing at AWS
 
 - Follow the instructions for testing locally, see above
 
-- Create a new AWS SNS topic
+- Create a new API Gateway
 
- - From the [AWS console], click on the **SNS** service
+ - From the [AWS console], click on the **API Gateway** service
 
- - Click on **Create a new Topic**
+ - Click on **Create API**
 
- - Enter a topic name, such as **GitHub-My-Repo-Testing**
+ - Enter a API name, such as **GitHub-My-Repo-Testing**
 
- - Enter a display name, such as **GitHub**
+ - Click on **Create API**
 
- - Click on **Create topic**
+ - Click on **Actions**
 
- - Copy the **ARN** for the SNS topic you created
+ - Click on **Create Resource**, such as "Web Hook"
 
-- Create a new AWS IAM policy
+ - Enter a **Resource Name**, such as "webhook"
 
- - From the [AWS console], click on the **IAM** service
+ - Click on **Create**
 
- - Click on **Policies**
+ - Click on **Actions**
 
- - Click on **Create Policy**
+ - Click on **Create Method**
 
- - Click **Policy Generator**
+ - Select **POST** from the drop-down
 
- - Choose **Allow**
+ - Click on the new **POST** entry
 
- - Choose **Amazon SNS** from **AWS Service**
+ - Click the checkbox for **Use Lambda Proxy integration**
 
- - Paste the **ARN** from SNS earlier
+ - Enter the **Lambda Function** name
 
- - Click **Add Statement**
+ - Click on **Save**
 
- - Click on **Next Step**
+ - Copy the **ARN** for the API Gateway
 
- - Provide a **Policy Name**, such as **SNSGitHubMyRepoPublish**
 
- - The policy produced should be
-
-```json
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "Stmt1481659429000",
-            "Effect": "Allow",
-            "Action": [
-                "sns:Publish"
-            ],
-            "Resource": [
-                "arn:aws:sns:us-east-1:087683607067:GitHub-My-Repo-Testing"
-            ]
-        }
-    ]
-}
-```
-
- - Click on **Create Policy**
-
-- Create a new user in IAM
-
- - From IAM, click on **Users**
-
- - Click **Add user**
-
- - Enter a user name, such as **sns-github-my-repo**
-
- - Select **Programmatic access** as the **access type**
-
- - Choose **Attach existing policies directly**
-
- - Choose the policy you created earlier
-
- - Click on **Next: Review**
-
- - Click **Create user**
-
- - Copy the **Access Key ID** and the **Secret access key**
-
-- Connect the GitHub repo to the new SNS topic
+- Connect the GitHub repo to the API Gateway topic
 
  - In GitHub, visit your repo's integration settings
 
-   - http://github.com/my/repo/settings/installations
+   - http://github.com/my/repo/settings/hooks
 
- - Add **Amazon SNS** as a service
+ - Click **Add webhook**
 
- - For **Aws key**, enter the **Access key** from earlier
+ - For **Payload URL**, enter the **ARN** from earlier
 
- - In the **Sns topic** enter the **ARN** from earlier
+ - For **Content type** choose **application/json**
+
+ - For **Secret**, enter the **Authorization key** from earlier
 
  - For the **Aws secret**, enter the **Secret access key**
 
- - Click **Add service**
+ - Choose **Let me select individual events**
+
+ - Click the checkbox for **Pushes** and **Pull requests**
+
+ - Click **Add hook**
 
 - Add the app to Lambda as a JAR
 
@@ -421,9 +348,9 @@ Lambda service
 
 - Click on **Configure triggers**
 
-- Add an **SNS** trigger
+- Add an **API Gateway** trigger
 
-- Select the SNS topic you created earlier
+- Select the API Gateway you created earlier
 
 - Click the **Enable trigger** checkbox
 
@@ -440,7 +367,7 @@ Lambda service
 - Upload the JAR file created by SBT assembly at
 `target/scala-2.11/aws-gh-prs-assembly-0.1-SNAPSHOT.jar`
 
-- Enter the handler as, `prs.Main::handler`
+- Enter the handler as, `prs.Main::handleRequest`
 
 - Choose **Create new role from template(s)**
 
@@ -448,7 +375,7 @@ Lambda service
 
 - Leave **Policy templates** blank
 
-- Reduce the memory to **384 MB**, and leave the timeout at *815 seconds**
+- Reduce the memory to **384 MB**, and leave the timeout at *240 seconds**
 
 - Keep the setting for **VPC** to none
 
@@ -458,7 +385,7 @@ Lambda service
 
 - Click **Actions** and then **Configure test event**
 
-- From the **Sample event template** drop-down, choose **SNS**
+- From the **Sample event template** drop-down, choose **API Gateway**
 
 - Click **Save and Test**
 
@@ -466,78 +393,17 @@ Lambda service
 
 - To change the test to one that is closer to a GitHub event
 
- - Insert a minimal string of json in the SNS **Message**
+ - Insert a minimal string of json in the API Gateway **body**
 ```
-    "Message": "{\"action\":\"opened\",\"number\":1,\"pull_request\":{\"state\":\"open\",\"head\":{\"ref\":\"changes\",\"repo\":{\"name\":\"public-repo\",\"owner\":{\"login\":\"baxterthehacker\"}}},\"base\":{\"ref\":\"master\",\"repo\":{\"name\":\"public-repo\",\"owner\":{\"login\":\"baxterthehacker\"}}}}}"
+    "body": "{\"action\":\"opened\",\"number\":1,\"pull_request\":{\"state\":\"open\",\"head\":{\"ref\":\"changes\",\"repo\":{\"name\":\"public-repo\",\"owner\":{\"login\":\"baxterthehacker\"}}},\"base\":{\"ref\":\"master\",\"repo\":{\"name\":\"public-repo\",\"owner\":{\"login\":\"baxterthehacker\"}}}}}"
 ```
- - Set the **MessageAttributes** to an **X-GitHub-Event**
+ - Add to **headers** an **X-GitHub-Event**
 ```
-    "MessageAttributes": {
-      "X-GitHub-Event": {
-        "Type": "String",
-        "Value": "pull_request"
-      }
+    "headers": {
+      [...]
+      "X-GitHub-Event": "pull_request",
+      [...]
     }
-```
-
-### Trigger SNS events on pull requests
-
-By default, GitHub sets the default notifications for webhooks,
-including for SNS, to just Git `push` events.  For SNS to receive
-pull request notifications from GitHub, you need to enable them.
-Currently, enabling them is only available from GitHub's API.  The
-event types are not configurable through the GitHub web site.
-
-The following Curl request will [list the hooks] for your repository
-so you can retrieve the **hook id** for your SNS notification.
-`GitHub token` is the access token you generated earlier, `OWNER` is
-your GitHub  organization name and `REPO` is your repository name.
-
-````
-$ curl -s -H 'Authorization: token [GitHub token]' https://api.github.com/repos/OWNER/REPO/hooks \
-  | grep -e id -e name
-  "id": 111333555,
-  "name": "amazonsns"
-````
-
-To enable the `pull_request` event, [edit the hook] for the id that
-you found above by running the following Curl request.  `GitHub token`
-is the access token you generated earlier, `OWNER` is your
-GitHub organization name and `REPO` is your repository name.
-
-```
-$ curl -s -X PATCH -H 'Authorization: token [GitHub token]' -d
-> '{
->   "add_events": [
->     "pull_request"
->   ]
-> }' https://api.github.com/repos/OWNER/REPO/hooks/111333555
-{
-  "type": "Repository",
-  "id": 111333555,
-  "name": "amazonsns",
-  "active": true,
-  "events": [
-    "push",
-    "pull_request"
-  ],
-  "config": {
-    "aws_key": "AKIAJIXVE4UMUWJMCHOQ",
-    "aws_secret": "********",
-    "sns_region": "us-east-1",
-    "sns_topic": "arn:aws:sns:us-east-1:087683607067:GitHub-My-Repo-Testing"
-  },
-  "updated_at": "2016-12-13T21:56:47Z",
-  "created_at": "2016-12-13T20:39:12Z",
-  "url": "https://api.github.com/repos/OWNER/REPO-rails/hooks/111333555",
-  "test_url": "https://api.github.com/repos/OWNER/REPO/hooks/111333555/test",
-  "ping_url": "https://api.github.com/repos/OWNER/REPO/hooks/111333555/pings",
-  "last_response": {
-    "code": 200,
-    "status": "active",
-    "message": "OK"
-  }
-}
 ```
 
 ### Warranty
@@ -577,7 +443,7 @@ error message, include
 - Unable to read or write to temporary directory on filesystem
 - Conf file missing from JAR
 - Conf file missing directives
-- SNS Event json is malformed
+- API Gateway json is malformed
 - GitHub json is malformed
 - SSH keys missing from the JAR
 - SSH hosts key file, `known_hosts`, is missing from JAR
