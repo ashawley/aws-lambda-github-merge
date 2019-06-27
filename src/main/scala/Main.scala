@@ -107,9 +107,6 @@ with scalalogging.StrictLogging {
     }
   }
 
-  def safeList[A](xs: java.util.List[A]) =
-    Option(xs).map(_.asScala).getOrElse(List.empty[A])
-
   def handleRequest(request: APIGatewayProxyRequestEvent, context: Context): APIGatewayProxyResponseEvent = Try {
 
     // Provided by sbt-buildinfo plugin
@@ -118,11 +115,14 @@ with scalalogging.StrictLogging {
     logger.info("Inspecting API Gateway request...")
 
     val eventType: String = request.getHeaders.get("X-GitHub-Event")
+
     val events = eventType match {
       case "push"
          | "pull_request" =>
+        logger.info(s"Received event of ${eventType}")
         List(github.events.GitHubEvent(eventType, parse(request.getBody)))
       case _               =>
+        logger.info(s"Received unexpected event of '${eventType}'")
         List.empty[github.events.GitHubEvent]
     }
 
@@ -238,12 +238,12 @@ with scalalogging.StrictLogging {
       val response = new APIGatewayProxyResponseEvent
       response.setBody(pretty(render(v)))
       response
-    case Failure(e: RuntimeException) => {
-      logger.error(e.getMessage)
+    case Failure(e: java.io.IOException) => {
+      logger.error(e.toString)
       logger.info("Closing async HTTP client")
       client.close
       val response = new APIGatewayProxyResponseEvent
-      response.setBody(pretty(render(List(e.getMessage))))
+      response.setBody(pretty(render(List(e.toString))))
       response
     }
     case Failure(t: Throwable) => {
