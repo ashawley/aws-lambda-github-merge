@@ -132,14 +132,14 @@ with scalalogging.StrictLogging {
       case e: github.events.PullRequestEvent =>
         GitPullRequest(
           GitBranch(
-            e.pull_request.base.repo.owner.login,
-            e.pull_request.base.repo.name,
+            e.pull_request.base.repo.get.owner.login,
+            e.pull_request.base.repo.get.name,
             e.pull_request.base.ref,
             "HEAD"
           ),
           GitBranch(
-            e.pull_request.head.repo.owner.login,
-            e.pull_request.head.repo.name,
+            e.pull_request.head.repo.get.owner.login,
+            e.pull_request.head.repo.get.name,
             e.pull_request.head.ref,
             e.pull_request.head.sha
           ),
@@ -270,8 +270,8 @@ with scalalogging.StrictLogging {
       pullRequest <- pullRequests
     } yield {
       GitBranch(
-        pullRequest.head.repo.owner.login,
-        pullRequest.head.repo.name,
+        pullRequest.head.repo.get.owner.login,
+        pullRequest.head.repo.get.name,
         pullRequest.head.ref,
         pullRequest.head.sha
       )

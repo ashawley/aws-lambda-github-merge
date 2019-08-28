@@ -13,7 +13,7 @@ libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-lambda-java-events" % "2.2.3",
   "com.amazonaws" % "aws-lambda-java-log4j" % "1.0.0",
   "com.ning" % "async-http-client" % "1.9.40",
-  "io.code-check" %% "github-api" % "0.2.0",
+  "io.code-check" %% "github-api" % "0.3.0-SNAPSHOT",
   "org.json4s"    %% "json4s-native" % "3.6.5",
   "org.eclipse.jgit" % "org.eclipse.jgit" % "4.10.0.201712302008-r",
   "org.eclipse.jgit" % "org.eclipse.jgit.junit" % "4.10.0.201712302008-r" % "test",
@@ -23,6 +23,8 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "slf4j-nop" % "1.7.25" % "test", // See also [1] below
   "org.scala-sbt" %% "io" % "1.1.4"
 )
+
+resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
 // 1. Favor slf4j-nop for Test over slf4j-log4j12 for Runtime
 dependencyClasspath in Test := {
