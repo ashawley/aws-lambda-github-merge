@@ -10,7 +10,7 @@ libraryDependencies ++= Seq(
   "org.specs2" %% "specs2-scalacheck" % "3.9.5" % "test",
   "io.verizon.knobs" %% "typesafe" % "4.0.31-scalaz-7.2",
   "com.amazonaws" % "aws-lambda-java-core" % "1.2.0",
-  "com.amazonaws" % "aws-lambda-java-events" % "2.2.3",
+  "com.amazonaws" % "aws-lambda-java-events" % "2.2.7",
   "com.amazonaws" % "aws-lambda-java-log4j" % "1.0.0",
   "com.ning" % "async-http-client" % "1.9.40",
   "io.code-check" %% "github-api" % "0.3.0-SNAPSHOT",
