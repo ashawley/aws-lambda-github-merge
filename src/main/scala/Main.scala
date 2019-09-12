@@ -1,8 +1,12 @@
 package prs
 
+import cats.effect.IO
+
 import knobs.Typesafe
 
 import com.typesafe.scalalogging
+
+import com.typesafe.config.ConfigFactory
 
 import org.eclipse.jgit
 
@@ -36,7 +40,7 @@ extends LambdaApp
 with RequestHandler[APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent]
 with scalalogging.StrictLogging {
 
-  lazy val config = Typesafe.config.unsafePerformSync
+  lazy val config = Typesafe.config[IO](ConfigFactory.load()).unsafeRunSync
 
   val tmpRoot = sbt.io.IO.createTemporaryDirectory
 
