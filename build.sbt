@@ -21,7 +21,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2",
   "org.slf4j" % "slf4j-log4j12" % "1.7.28",
   "org.slf4j" % "slf4j-nop" % "1.7.28" % "test", // See also [1] below
-  "org.scala-sbt" %% "io" % "1.1.4"
+  "org.scala-sbt" %% "io" % "1.2.2"
 )
 
 resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
