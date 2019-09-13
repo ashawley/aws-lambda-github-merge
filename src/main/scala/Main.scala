@@ -397,7 +397,7 @@ with scalalogging.StrictLogging {
     }
 
     if (merges.isEmpty) {
-      logger.info(s"Nothing to merge...")
+      logger.warn(s"Nothing to merge...")
     }
 
     // See if merge above failed
