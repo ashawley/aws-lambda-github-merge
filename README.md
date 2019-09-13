@@ -157,53 +157,54 @@ Assembly], to build a JAR file.
 
 ```
 > assembly
-[info] Including: typesafe_2.12-4.0.31-scalaz-7.2.jar
-[info] Including: joda-convert-1.8.1.jar
-[info] Including: json4s-ext_2.12-3.4.2.jar
-[info] Including: jackson-databind-2.6.7.jar
-[info] Including: io_2.12-1.1.4.jar
-[info] Including: aws-lambda-java-events-2.2.3.jar
+[info] Including: typesafe_2.12-5.0.32.jar
+[info] Including: joda-convert-2.2.0.jar
+[info] Including: json4s-ext_2.12-3.6.6.jar
+[info] Including: jackson-databind-2.9.8.jar
+[info] Including: io_2.12-1.2.2.jar
+[info] Including: aws-lambda-java-events-2.2.7.jar
 [info] Including: log4j-1.2.17.jar
 [info] Including: jna-4.5.0.jar
-[info] Including: json4s-jackson_2.12-3.4.2.jar
-[info] Including: scala-xml_2.12-1.0.6.jar
+[info] Including: jzlib-1.1.1.jar
+[info] Including: json4s-jackson_2.12-3.6.6.jar
 [info] Including: paranamer-2.8.jar
-[info] Including: scala-reflect.jar
-[info] Including: jackson-core-2.6.7.jar
-[info] Including: scodec-bits_2.12-1.1.2.jar
+[info] Including: scala-reflect-2.12.10.jar
+[info] Including: jackson-core-2.9.8.jar
 [info] Including: jsch-0.1.54.jar
-[info] Including: github-api_2.12-0.2.0.jar
-[info] Including: scalaz-effect_2.12-7.2.12.jar
-[info] Including: parser_2.12-0.4.7-scalaz-7.2.jar
-[info] Including: jackson-annotations-2.6.0.jar
+[info] Including: github-api_2.12-0.3.0-SNAPSHOT.jar
+[info] Including: parser_2.12-0.5.8.jar
+[info] Including: jackson-annotations-2.9.0.jar
 [info] Including: httpcore-4.4.4.jar
-[info] Including: scopt_2.12-3.5.0.jar
+[info] Including: scopt_2.12-3.7.1.jar
 [info] Including: aws-lambda-java-core-1.2.0.jar
-[info] Including: slf4j-api-1.7.25.jar
+[info] Including: slf4j-api-1.7.28.jar
 [info] Including: aws-lambda-java-log4j-1.0.0.jar
-[info] Including: scala-logging_2.12-3.7.2.jar
-[info] Including: json4s-core_2.12-3.5.3.jar
+[info] Including: scala-logging_2.12-3.8.0.jar
+[info] Including: json4s-core_2.12-3.6.7.jar
 [info] Including: httpclient-4.5.2.jar
-[info] Including: json4s-scalap_2.12-3.5.3.jar
-[info] Including: scalaz-core_2.12-7.2.12.jar
-[info] Including: slf4j-log4j12-1.7.25.jar
-[info] Including: scalaz-concurrent_2.12-7.2.7.jar
+[info] Including: json4s-scalap_2.12-3.6.7.jar
+[info] Including: slf4j-log4j12-1.7.28.jar
 [info] Including: async-http-client-1.9.40.jar
 [info] Including: jna-platform-4.5.0.jar
-[info] Including: json4s-ast_2.12-3.5.3.jar
-[info] Including: org.eclipse.jgit-4.10.0.201712302008-r.jar
-[info] Including: joda-time-2.9.4.jar
+[info] Including: json4s-ast_2.12-3.6.7.jar
+[info] Including: org.eclipse.jgit-4.11.9.201909030838-r.jar
+[info] Including: joda-time-2.10.1.jar
 [info] Including: commons-logging-1.2.jar
-[info] Including: json4s-native_2.12-3.5.3.jar
+[info] Including: json4s-native_2.12-3.6.7.jar
 [info] Including: netty-3.10.6.Final.jar
 [info] Including: config-1.2.1.jar
-[info] Including: scalaz-stream_2.12-0.8.6a.jar
 [info] Including: JavaEWAH-1.1.6.jar
-[info] Including: scala-library.jar
-[info] Including: core_2.12-4.0.31-scalaz-7.2.jar
+[info] Including: scala-library-2.12.10.jar
+[info] Including: apple-file-events-1.3.2.jar
+[info] Including: machinist_2.12-0.6.2.jar
+[info] Including: fs2-core_2.12-0.10.0-M10.jar
+[info] Including: core_2.12-5.0.32.jar
+[info] Including: cats-kernel_2.12-1.0.0-RC2.jar
+[info] Including: cats-free_2.12-1.0.0-RC2.jar
 [info] Including: commons-codec-1.9.jar
 [info] Checking every *.class/*.jar file's SHA-1.
 [info] Merging files...
+[warn] Merging 'LICENSE' with strategy 'first'
 [warn] Merging 'META-INF/DEPENDENCIES' with strategy 'discard'
 [warn] Merging 'META-INF/ECLIPSE_.RSA' with strategy 'discard'
 [warn] Merging 'META-INF/ECLIPSE_.SF' with strategy 'discard'
@@ -239,6 +240,8 @@ Assembly], to build a JAR file.
 [warn] Merging 'META-INF/maven/com.googlecode.javaewah/JavaEWAH/pom.xml' with strategy 'discard'
 [warn] Merging 'META-INF/maven/com.jcraft/jsch/pom.properties' with strategy 'discard'
 [warn] Merging 'META-INF/maven/com.jcraft/jsch/pom.xml' with strategy 'discard'
+[warn] Merging 'META-INF/maven/com.jcraft/jzlib/pom.properties' with strategy 'discard'
+[warn] Merging 'META-INF/maven/com.jcraft/jzlib/pom.xml' with strategy 'discard'
 [warn] Merging 'META-INF/maven/com.ning/async-http-client/pom.properties' with strategy 'discard'
 [warn] Merging 'META-INF/maven/com.ning/async-http-client/pom.xml' with strategy 'discard'
 [warn] Merging 'META-INF/maven/com.thoughtworks.paranamer/paranamer/pom.properties' with strategy 'discard'
@@ -267,9 +270,11 @@ Assembly], to build a JAR file.
 [warn] Merging 'META-INF/maven/org.slf4j/slf4j-log4j12/pom.xml' with strategy 'discard'
 [warn] Merging 'META-INF/services/com.fasterxml.jackson.core.JsonFactory' with strategy 'discard'
 [warn] Merging 'META-INF/services/com.fasterxml.jackson.core.ObjectCodec' with strategy 'discard'
-[warn] Strategy 'discard' was applied to 63 files
-[info] SHA-1: 79f2f4ff4a554846ae7a2e26fa71c65bd5b9b29a
-[success] Total time: 66 s (01:06), completed Jun 19, 2019 11:55:41 AM
+[warn] Merging 'NOTICE' with strategy 'first'
+[warn] Strategy 'discard' was applied to 65 files
+[warn] Strategy 'first' was applied to 2 files
+[info] SHA-1: c557f6485eb6fb8ec55cd9e91416b24fca59efd0
+[success] Total time: 76 s (01:16), completed Sep 12, 2019 10:23:42 AM
 ```
 
 ### Testing at AWS
