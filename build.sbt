@@ -17,7 +17,7 @@ libraryDependencies ++= Seq(
   "org.json4s"    %% "json4s-native" % "3.6.7",
   "org.eclipse.jgit" % "org.eclipse.jgit" % "4.11.9.201909030838-r",
   "org.eclipse.jgit" % "org.eclipse.jgit.junit" % "4.11.9.201909030838-r" % "test",
-  // "com.jcraft" % "jsch" % "0.1.54",
+  "com.jcraft" % "jsch" % "0.1.55", // jgit dep
   "com.typesafe.scala-logging" %% "scala-logging" % "3.8.0",
   "org.slf4j" % "slf4j-log4j12" % "1.7.28",
   "org.slf4j" % "slf4j-nop" % "1.7.28" % "test", // See also [1] below
