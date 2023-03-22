@@ -14,7 +14,7 @@ libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-lambda-java-log4j" % "1.0.1",
   "com.ning" % "async-http-client" % "1.9.40",
   "io.code-check" %% "github-api" % "0.3.0-SNAPSHOT",
-  "org.json4s"    %% "json4s-native" % "3.6.7",
+  "org.json4s"    %% "json4s-native" % "3.6.12",
   "org.eclipse.jgit" % "org.eclipse.jgit" % "4.11.9.201909030838-r",
   "org.eclipse.jgit" % "org.eclipse.jgit.junit" % "4.11.9.201909030838-r" % "test",
   "com.jcraft" % "jsch" % "0.1.55", // jgit dep
