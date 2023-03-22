@@ -19,9 +19,9 @@ libraryDependencies ++= Seq(
   "org.eclipse.jgit" % "org.eclipse.jgit.junit" % "5.1.9.201908210455-r" % "test",
   "com.jcraft" % "jsch" % "0.1.55", // jgit dep
   "org.apache.httpcomponents" % "httpclient" % "4.5.14", // jgit dep
-  "com.typesafe.scala-logging" %% "scala-logging" % "3.8.0",
-  "org.slf4j" % "slf4j-log4j12" % "1.7.28",
-  "org.slf4j" % "slf4j-nop" % "1.7.28" % "test", // See also [1] below
+  "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5",
+  "org.slf4j" % "slf4j-log4j12" % "1.7.36",
+  "org.slf4j" % "slf4j-nop" % "1.7.36" % "test", // See also [1] below
   "org.scala-sbt" %% "io" % "1.2.2"
 )
 
