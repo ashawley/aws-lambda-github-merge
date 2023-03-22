@@ -1,4 +1,4 @@
-scalaVersion  := "2.12.10"
+scalaVersion  := "2.12.16"
 
 name := "aws-gh-prs"
 
@@ -28,13 +28,13 @@ libraryDependencies ++= Seq(
 resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
 // 1. Favor slf4j-nop for Test over slf4j-log4j12 for Runtime
-dependencyClasspath in Test := {
-  (dependencyClasspath in Test).value.filter {
+Test / dependencyClasspath := {
+  (Test / dependencyClasspath).value.filter {
     _.get(moduleID.key) exists (_.name != "slf4j-log4j12")
   }
 }
 
-assemblyMergeStrategy in assembly := {
+assembly / assemblyMergeStrategy := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
   case x => MergeStrategy.first
 }
