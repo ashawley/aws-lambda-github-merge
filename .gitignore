@@ -1,3 +1,4 @@
 target/
 application.conf
 src/main/resources/ssh/
+.bsp/
