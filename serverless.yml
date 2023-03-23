@@ -1,0 +1,19 @@
+service: aws-gh-prs
+frameworkVersion: '2 || 3'
+
+provider:
+  name: aws
+  runtime: java8
+  memorySize: 384
+  lambdaHashingVersion: '20201221'
+
+package:
+  artifact: target/scala-2.12/aws-gh-prs-assembly-0.5.2-SNAPSHOT.jar
+
+functions:
+  webhook:
+    handler: prs.Main::handleRequest
+    events:
+      - http:
+          path: /webhook
+          method: post

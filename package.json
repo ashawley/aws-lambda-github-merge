@@ -1,0 +1,13 @@
+{
+  "name": "aws-gh-prs",
+  "version": "0.5.2",
+  "scripts": {
+  },
+  "private": true,
+  "dependencies": {
+  },
+  "devDependencies": {
+    "serverless": "^3.1.8",
+    "serverless-offline": "^8.8.0"
+  }
+}

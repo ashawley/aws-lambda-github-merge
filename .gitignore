@@ -2,3 +2,4 @@ target/
 application.conf
 src/main/resources/ssh/
 .bsp/
+/node_modules
