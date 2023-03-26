@@ -5,10 +5,9 @@ provider:
   name: aws
   runtime: java8
   memorySize: 384
-  lambdaHashingVersion: '20201221'
 
 package:
-  artifact: target/scala-2.12/aws-gh-prs-assembly-0.5.2-SNAPSHOT.jar
+  artifact: target/scala-2.12/aws-gh-prs-assembly-0.6.0-SNAPSHOT.jar
 
 functions:
   webhook:
