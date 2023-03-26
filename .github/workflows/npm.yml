@@ -34,7 +34,7 @@ jobs:
           let fs = require('fs');
           fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/aws-gh-prs-assembly-0.5.2-SNAPSHOT.zip`, Buffer.from(download.data));
 
-    - run: mkdir target/scala-2.12
+    - run: mkdir -p target/scala-2.12
     - run: 'unzip "aws-gh-prs-assembly-0.5.2-SNAPSHOT.zip" -d target/scala-2.12'
     - uses: actions/setup-node@v3
       with:
