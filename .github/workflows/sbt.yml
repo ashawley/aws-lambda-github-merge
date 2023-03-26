@@ -18,5 +18,5 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: 'Fat JAR file'
-        path: target/scala-2.12/aws-gh-prs-assembly-0.5.2-SNAPSHOT.jar
+        path: target/scala-2.*/aws-gh-prs-assembly-*-SNAPSHOT.jar
         retention-days: 2
