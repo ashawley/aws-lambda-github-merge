@@ -34,6 +34,7 @@ jobs:
           let fs = require('fs');
           fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/Fat JAR file.zip`, Buffer.from(download.data));
 
+    - run: 'unzip "Fat JAR file.zip"'
     - uses: actions/setup-node@v3
       with:
         node-version: 18
