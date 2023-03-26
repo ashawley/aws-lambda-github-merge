@@ -1,4 +1,4 @@
-name: sbt
+name: build
 
 on: [push]
 
@@ -20,3 +20,20 @@ jobs:
         name: aws-gh-prs-assembly-0.5.2-SNAPSHOT
         path: target/scala-2.12/aws-gh-prs-assembly-0.5.2-SNAPSHOT.jar
         retention-days: 2
+
+  npm:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/download-artifact@v3
+      with:
+        name: aws-gh-prs-assembly-0.5.2-SNAPSHOT
+    - run: mkdir -p ./target/scala-2.12
+    - run: mv ./aws-gh-prs-assembly-0.5.2-SNAPSHOT.jar ./target/scala-2.12
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    - run: npm ci
+    - run: npx sls package
