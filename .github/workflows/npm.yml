@@ -23,7 +23,7 @@ jobs:
              run_id: context.payload.workflow_run.id,
           });
           let matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
-            return artifact.name == "Fat JAR file"
+            return artifact.name == "aws-gh-prs-assembly-0.5.2-SNAPSHOT"
           })[0];
           let download = await github.rest.actions.downloadArtifact({
              owner: context.repo.owner,
@@ -32,9 +32,10 @@ jobs:
              archive_format: 'zip',
           });
           let fs = require('fs');
-          fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/Fat JAR file.zip`, Buffer.from(download.data));
+          fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/aws-gh-prs-assembly-0.5.2-SNAPSHOT.zip`, Buffer.from(download.data));
 
-    - run: 'unzip "Fat JAR file.zip"'
+    - mkdir: mkdir target/scala-2.12
+    - run: 'unzip "aws-gh-prs-assembly-0.5.2-SNAPSHOT.zip" -d target/scala-2.12'
     - uses: actions/setup-node@v3
       with:
         node-version: 18
