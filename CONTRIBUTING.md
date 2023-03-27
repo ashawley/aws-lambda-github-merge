@@ -8,7 +8,7 @@
 Requirements:
 
 - [Java] 8
-- [sbt] 1.2.8
+- [sbt] 1.3 or later
 
 ### Testing locally
 
@@ -107,124 +107,9 @@ Assembly], to build a JAR file.
 
 ```
 > assembly
-[info] Including: typesafe_2.12-5.0.32.jar
-[info] Including: joda-convert-2.2.0.jar
-[info] Including: json4s-ext_2.12-3.6.6.jar
-[info] Including: jackson-databind-2.9.8.jar
-[info] Including: io_2.12-1.2.2.jar
-[info] Including: aws-lambda-java-events-2.2.7.jar
-[info] Including: log4j-1.2.17.jar
-[info] Including: jna-4.5.0.jar
-[info] Including: jzlib-1.1.1.jar
-[info] Including: json4s-jackson_2.12-3.6.6.jar
-[info] Including: paranamer-2.8.jar
-[info] Including: scala-reflect-2.12.10.jar
-[info] Including: jackson-core-2.9.8.jar
-[info] Including: jsch-0.1.54.jar
-[info] Including: github-api_2.12-0.3.0-SNAPSHOT.jar
-[info] Including: parser_2.12-0.5.8.jar
-[info] Including: jackson-annotations-2.9.0.jar
-[info] Including: httpcore-4.4.4.jar
-[info] Including: scopt_2.12-3.7.1.jar
-[info] Including: aws-lambda-java-core-1.2.0.jar
-[info] Including: slf4j-api-1.7.28.jar
-[info] Including: aws-lambda-java-log4j-1.0.0.jar
-[info] Including: scala-logging_2.12-3.8.0.jar
-[info] Including: json4s-core_2.12-3.6.7.jar
-[info] Including: httpclient-4.5.2.jar
-[info] Including: json4s-scalap_2.12-3.6.7.jar
-[info] Including: slf4j-log4j12-1.7.28.jar
-[info] Including: async-http-client-1.9.40.jar
-[info] Including: jna-platform-4.5.0.jar
-[info] Including: json4s-ast_2.12-3.6.7.jar
-[info] Including: org.eclipse.jgit-4.11.9.201909030838-r.jar
-[info] Including: joda-time-2.10.1.jar
-[info] Including: commons-logging-1.2.jar
-[info] Including: json4s-native_2.12-3.6.7.jar
-[info] Including: netty-3.10.6.Final.jar
-[info] Including: config-1.2.1.jar
-[info] Including: JavaEWAH-1.1.6.jar
-[info] Including: scala-library-2.12.10.jar
-[info] Including: apple-file-events-1.3.2.jar
-[info] Including: machinist_2.12-0.6.2.jar
-[info] Including: fs2-core_2.12-0.10.0-M10.jar
-[info] Including: core_2.12-5.0.32.jar
-[info] Including: cats-kernel_2.12-1.0.0-RC2.jar
-[info] Including: cats-free_2.12-1.0.0-RC2.jar
-[info] Including: commons-codec-1.9.jar
-[info] Checking every *.class/*.jar file's SHA-1.
-[info] Merging files...
-[warn] Merging 'LICENSE' with strategy 'first'
-[warn] Merging 'META-INF/DEPENDENCIES' with strategy 'discard'
-[warn] Merging 'META-INF/ECLIPSE_.RSA' with strategy 'discard'
-[warn] Merging 'META-INF/ECLIPSE_.SF' with strategy 'discard'
-[warn] Merging 'META-INF/LICENSE' with strategy 'discard'
-[warn] Merging 'META-INF/LICENSE.txt' with strategy 'discard'
-[warn] Merging 'META-INF/MANIFEST.MF' with strategy 'discard'
-[warn] Merging 'META-INF/NOTICE' with strategy 'discard'
-[warn] Merging 'META-INF/NOTICE.txt' with strategy 'discard'
-[warn] Merging 'META-INF/license/LICENSE.base64.txt' with strategy 'discard'
-[warn] Merging 'META-INF/license/LICENSE.bouncycastle.txt' with strategy 'discard'
-[warn] Merging 'META-INF/license/LICENSE.commons-logging.txt' with strategy 'discard'
-[warn] Merging 'META-INF/license/LICENSE.felix.txt' with strategy 'discard'
-[warn] Merging 'META-INF/license/LICENSE.jboss-logging.txt' with strategy 'discard'
-[warn] Merging 'META-INF/license/LICENSE.jsr166y.txt' with strategy 'discard'
-[warn] Merging 'META-INF/license/LICENSE.jzlib.txt' with strategy 'discard'
-[warn] Merging 'META-INF/license/LICENSE.log4j.txt' with strategy 'discard'
-[warn] Merging 'META-INF/license/LICENSE.protobuf.txt' with strategy 'discard'
-[warn] Merging 'META-INF/license/LICENSE.slf4j.txt' with strategy 'discard'
-[warn] Merging 'META-INF/license/LICENSE.webbit.txt' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-lambda-java-core/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-lambda-java-core/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-lambda-java-events/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-lambda-java-events/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-lambda-java-log4j/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.amazonaws/aws-lambda-java-log4j/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.fasterxml.jackson.core/jackson-annotations/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.fasterxml.jackson.core/jackson-annotations/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.fasterxml.jackson.core/jackson-core/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.fasterxml.jackson.core/jackson-core/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.fasterxml.jackson.core/jackson-databind/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.fasterxml.jackson.core/jackson-databind/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.googlecode.javaewah/JavaEWAH/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.googlecode.javaewah/JavaEWAH/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.jcraft/jsch/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.jcraft/jsch/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.jcraft/jzlib/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.jcraft/jzlib/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.ning/async-http-client/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.ning/async-http-client/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.thoughtworks.paranamer/paranamer/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/com.thoughtworks.paranamer/paranamer/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/commons-codec/commons-codec/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/commons-codec/commons-codec/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/commons-logging/commons-logging/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/commons-logging/commons-logging/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/io.netty/netty/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/io.netty/netty/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/joda-time/joda-time/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/joda-time/joda-time/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/log4j/log4j/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/log4j/log4j/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/org.apache.httpcomponents/httpclient/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/org.apache.httpcomponents/httpclient/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/org.apache.httpcomponents/httpcore/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/org.apache.httpcomponents/httpcore/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/org.eclipse.jgit/org.eclipse.jgit/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/org.eclipse.jgit/org.eclipse.jgit/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/org.joda/joda-convert/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/org.joda/joda-convert/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/org.slf4j/slf4j-api/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/org.slf4j/slf4j-api/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/maven/org.slf4j/slf4j-log4j12/pom.properties' with strategy 'discard'
-[warn] Merging 'META-INF/maven/org.slf4j/slf4j-log4j12/pom.xml' with strategy 'discard'
-[warn] Merging 'META-INF/services/com.fasterxml.jackson.core.JsonFactory' with strategy 'discard'
-[warn] Merging 'META-INF/services/com.fasterxml.jackson.core.ObjectCodec' with strategy 'discard'
-[warn] Merging 'NOTICE' with strategy 'first'
-[warn] Strategy 'discard' was applied to 65 files
-[warn] Strategy 'first' was applied to 2 files
-[info] SHA-1: c557f6485eb6fb8ec55cd9e91416b24fca59efd0
-[success] Total time: 76 s (01:16), completed Sep 12, 2019 10:23:42 AM
+[info] Strategy 'discard' was applied to 69 files (Run the task at debug level to see details)
+[info] Strategy 'first' was applied to 219 files (Run the task at debug level to see details)
+[success] Total time: 13 s, completed Mar 26, 2023 10:19:33 PM
 ```
 
 ### Testing at AWS
@@ -284,7 +169,7 @@ Assembly], to build a JAR file.
 
  - Choose **Let me select individual events**
 
- - Click the checkbox for **Pushes** and **Pull requests**
+ - Click the checkbox for **Pushes** (push) and **Pull requests** (pull_request)
 
  - Click **Add hook**
 

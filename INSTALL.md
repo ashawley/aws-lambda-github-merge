@@ -4,7 +4,13 @@
 
 Install is a developer task, see instructions in CONTRIBUTING file.
 
-### Uploading to AWS Lambda
+## Deploy with Serverless Framework
+
+You can deploy easily to the production stage with:
+
+    $ npx sls deploy -s prod
+
+### Manually uploading to AWS Lambda
 
 - From the [AWS console], click on **Configure function** from the
 Lambda service
