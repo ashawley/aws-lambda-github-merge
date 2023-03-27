@@ -12,6 +12,7 @@ package:
 functions:
   webhook:
     handler: prs.Main::handleRequest
+    timeout: 240
     events:
       - http:
           path: /webhook
