@@ -13,6 +13,8 @@
 
 ## Merging pull requests on AWS Lambda with GitHub webhooks
 
+[![build](https://github.com/ashawley/aws-lambda-github-merge/actions/workflows/build.yml/badge.svg)](https://github.com/ashawley/aws-lambda-github-merge/actions/workflows/build.yml)
+
 The following Scala code builds a Java JAR file that can run on AWS
 Lambda to automatically continuously integrate pull requests for a
 GitHub project.
