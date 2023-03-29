@@ -7,7 +7,7 @@ provider:
   memorySize: 384
 
 package:
-  artifact: target/scala-2.12/aws-gh-prs-assembly-0.6.1-SNAPSHOT.jar
+  artifact: target/scala-2.12/aws-gh-prs-assembly-0.6.2-SNAPSHOT.jar
 
 functions:
   webhook:

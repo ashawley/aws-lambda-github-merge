@@ -1,6 +1,6 @@
 {
   "name": "aws-gh-prs",
-  "version": "0.6.1-SNAPSHOT",
+  "version": "0.6.2-SNAPSHOT",
   "scripts": {
   },
   "private": true,
