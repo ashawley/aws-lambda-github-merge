@@ -297,6 +297,18 @@ with scalalogging.StrictLogging {
 
     val upstream = gitURI(m.from)
 
+    /* ERROR org.eclipse.jgit.util.FS:598 - Cannot save config file 'FileBasedConfig[/home/sbx_user1051/.gitconfig]'
+     * java.io.IOException: Creating directories for /home/sbx_user1051 failed
+     *         at org.eclipse.jgit.util.FileUtils.mkdirs(FileUtils.java:405)
+     *         at org.eclipse.jgit.internal.storage.file.LockFile.lock(LockFile.java:167)
+     *         at org.eclipse.jgit.storage.file.FileBasedConfig.save(FileBasedConfig.java:236)
+     *         at org.eclipse.jgit.util.FS$FileStoreAttributes.saveToConfig(FS.java:577)
+     *         at org.eclipse.jgit.util.FS$FileStoreAttributes.lambda$0(FS.java:357)
+     *         at java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1604)
+     *         at java.lang.Thread.run(Thread.java:750)
+     */
+    System.setProperty("user.home", tmpRoot.getAbsolutePath)
+
     val gitPath = sbt.io.Path(tmpRoot) / m.from.repo
 
     logger.info(s"Working directory is $tmpRoot")
